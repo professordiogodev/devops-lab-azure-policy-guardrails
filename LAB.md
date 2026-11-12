@@ -2,15 +2,22 @@
 
 ## The situation
 
-Beanie's three teams share one Azure subscription, and last month's bill had surprises. An intern left a GPU machine running over a long weekend. Three teams created resources that nobody can attribute to anyone, and when finance asked "whose is this?", the answer was a shrug. And a storage account appeared in a region the company's contracts do not allow for customer data.
+```text
+RULEBOOK - Beanie's shared Azure subscription
+Last month : an intern's GPU machine ran all weekend
+           : three teams made resources nobody can attribute ("whose is this?")
+           : a storage account appeared in a region our contracts do not allow
+Not a rule : an e-mail asking people to be careful
+A real rule: one that makes the wrong thing impossible to do
+```
 
-You could send an e-mail asking people to be careful. You have probably sent that e-mail before. Rules that depend on people remembering do not work; rules that make the wrong thing **impossible to do** do. Azure has three tools for that, and they are free:
+Three cards, all free, played on one resource group so nothing outside it is touched:
 
 - **Azure Policy**: "every resource must have an owner tag", "only these regions", "only these VM sizes". A resource that breaks the rule is **refused** at creation.
-- **Budgets**: a monthly amount and an alert at 80% and at 100%, so the surprise arrives on the 12th, not on the invoice.
-- **Resource locks**: a `CanNotDelete` lock, so that even an Owner has to stop and remove the lock on purpose before deleting anything.
+- **Budgets**: a monthly amount with alerts at 80% and 100%, so the surprise arrives on the 12th, not on the invoice.
+- **Resource locks**: a `CanNotDelete` lock, so even an Owner must stop and remove the lock on purpose.
 
-Today you build all three, on one resource group so that nothing outside it is touched, and then you try to break through them yourself.
+Then you play the other side and try to break through them yourself.
 
 > **Your mission**
 > - Create the resource group `rg-guardrails` in `eastus`, tagged
